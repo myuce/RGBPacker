@@ -167,14 +167,14 @@ class App:
         browseAlpha.place(x=650,y=130,width=80,height=30)
         browseAlpha["command"] = lambda: self.browseFile(self.textAlpha)
 
-        combineButton=tk.Button(root)
-        combineButton["bg"] = "#f0f0f0"
-        combineButton["font"] = ft
-        combineButton["fg"] = "#000000"
-        combineButton["justify"] = "center"
-        combineButton["text"] = "Combine"
-        combineButton.place(x=10,y=170,width=720,height=25)
-        combineButton["command"] = self.combineButton_command
+        packButton=tk.Button(root)
+        packButton["bg"] = "#f0f0f0"
+        packButton["font"] = ft
+        packButton["fg"] = "#000000"
+        packButton["justify"] = "center"
+        packButton["text"] = "Pack"
+        packButton.place(x=10,y=170,width=720,height=25)
+        packButton["command"] = self.packButton_command
     
     def browseFile(self, textField: tk.Entry):
         file = filedialog.askopenfile(mode="r", filetypes=[
@@ -186,8 +186,8 @@ class App:
             textField.insert(0, file.name)
 
 
-    def combineButton_command(self):
-        newImage = self.combineImages(self.textRed.get(), self.textGreen.get(), self.textBlue.get(), self.textAlpha.get())
+    def packButton_command(self):
+        newImage = self.packImages(self.textRed.get(), self.textGreen.get(), self.textBlue.get(), self.textAlpha.get())
         if newImage:
             file = filedialog.asksaveasfile(filetypes=[
                 ("PNG Image", ".png"),
@@ -205,7 +205,7 @@ class App:
                 newImage.save(file.name)
                 alert.showinfo(title="Success!", message=f"{basename(file.name)} has been saved!")
 
-    def combineImages(self, red, green, blue, alpha):
+    def packImages(self, red, green, blue, alpha):
         r = Image.open(red) if red != "" else Image.new(mode="RGB", size=(1,1), color=self.redDef.get())
         g = Image.open(green) if green != "" else Image.new(mode="RGB", size=(1,1), color=self.greenDef.get())
         b = Image.open(blue) if blue != "" else Image.new(mode="RGB", size=(1,1), color=self.blueDef.get())

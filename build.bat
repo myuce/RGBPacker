@@ -1,1 +1,1 @@
-pyinstaller main.py -F -i rgb.ico -n "RGB packer" --windowed
+pyinstaller RGBPacker.py -F -i rgb.ico -n "RGB packer" --windowed
