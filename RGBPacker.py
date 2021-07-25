@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.font as tkFont
 from PIL import Image
+from PIL.ImageOps import invert
 from tkinter import filedialog
 import tkinter.messagebox as alert
 from os.path import basename
@@ -10,7 +11,7 @@ class App:
         #setting title
         root.title("RGB Packer")
         #setting window size
-        width=740
+        width=710
         height=210
         screenwidth = root.winfo_screenwidth()
         screenheight = root.winfo_screenheight()
@@ -33,7 +34,7 @@ class App:
         self.textRed["font"] = ft
         self.textRed["fg"] = "#333333"
         self.textRed["justify"] = "left"
-        self.textRed.place(x=80,y=10,width=420,height=30)
+        self.textRed.place(x=80,y=10,width=320,height=30)
 
         browseRed=tk.Button(root)
         browseRed["bg"] = "#f0f0f0"
@@ -41,7 +42,7 @@ class App:
         browseRed["fg"] = "#000000"
         browseRed["justify"] = "center"
         browseRed["text"] = "Browse"
-        browseRed.place(x=510,y=10,width=80,height=30)
+        browseRed.place(x=410,y=10,width=80,height=30)
         browseRed["command"] = lambda: self.browseFile(self.textRed)
 
         self.redDef = tk.StringVar(value="black")
@@ -50,15 +51,23 @@ class App:
         self.redBlack["fg"] = "#333333"
         self.redBlack["justify"] = "left"
         self.redBlack["text"] = "Black"
-        self.redBlack.place(x=600,y=10,width=60,height=30)
+        self.redBlack.place(x=500,y=10,width=60,height=30)
         self.redBlack["value"] = "black"
         self.redWhite=tk.Radiobutton(root, variable=self.redDef)
         self.redWhite["font"] = ft
         self.redWhite["fg"] = "#333333"
         self.redWhite["justify"] = "left"
         self.redWhite["text"] = "White"
-        self.redWhite.place(x=660,y=10,width=60,height=30)
+        self.redWhite.place(x=560,y=10,width=60,height=30)
         self.redWhite["value"] = "white"
+
+        self.redInvert = tk.BooleanVar(value=False)
+        self.redInvertCheck=tk.Checkbutton(root, variable=self.redInvert)
+        self.redInvertCheck["font"] = ft
+        self.redInvertCheck["fg"] = "#333333"
+        self.redInvertCheck["justify"] = "left"
+        self.redInvertCheck["text"] = "Invert"
+        self.redInvertCheck.place(x=635,y=10,width=60,height=30)
 
         # green
         labelGreen = tk.Label(root)
@@ -74,7 +83,7 @@ class App:
         self.textGreen["font"] = ft
         self.textGreen["fg"] = "#333333"
         self.textGreen["justify"] = "left"
-        self.textGreen.place(x=80,y=50,width=420,height=30)
+        self.textGreen.place(x=80,y=50,width=320,height=30)
 
         browseGreeen=tk.Button(root)
         browseGreeen["bg"] = "#f0f0f0"
@@ -82,7 +91,7 @@ class App:
         browseGreeen["fg"] = "#000000"
         browseGreeen["justify"] = "center"
         browseGreeen["text"] = "Browse"
-        browseGreeen.place(x=510,y=50,width=80,height=30)
+        browseGreeen.place(x=410,y=50,width=80,height=30)
         browseGreeen["command"] = lambda: self.browseFile(self.textGreen)
 
         self.greenDef = tk.StringVar(value="black")
@@ -91,15 +100,23 @@ class App:
         self.greenBlack["fg"] = "#333333"
         self.greenBlack["justify"] = "left"
         self.greenBlack["text"] = "Black"
-        self.greenBlack.place(x=600,y=50,width=60,height=30)
+        self.greenBlack.place(x=500,y=50,width=60,height=30)
         self.greenBlack["value"] = "black"
         self.greenWhite=tk.Radiobutton(root, variable=self.greenDef)
         self.greenWhite["font"] = ft
         self.greenWhite["fg"] = "#333333"
         self.greenWhite["justify"] = "left"
         self.greenWhite["text"] = "White"
-        self.greenWhite.place(x=660,y=50,width=60,height=30)
+        self.greenWhite.place(x=560,y=50,width=60,height=30)
         self.greenWhite["value"] = "white"
+
+        self.greenInvert = tk.BooleanVar(value=False)
+        self.greenInvertCheck=tk.Checkbutton(root, variable=self.greenInvert)
+        self.greenInvertCheck["font"] = ft
+        self.greenInvertCheck["fg"] = "#333333"
+        self.greenInvertCheck["justify"] = "left"
+        self.greenInvertCheck["text"] = "Invert"
+        self.greenInvertCheck.place(x=635,y=50,width=60,height=30)
 
         # blue
         labelBlue = tk.Label(root)
@@ -115,7 +132,7 @@ class App:
         self.textBlue["font"] = ft
         self.textBlue["fg"] = "#333333"
         self.textBlue["justify"] = "left"
-        self.textBlue.place(x=80,y=90,width=420,height=30)
+        self.textBlue.place(x=80,y=90,width=320,height=30)
 
         browseBlue=tk.Button(root)
         browseBlue["bg"] = "#f0f0f0"
@@ -123,7 +140,7 @@ class App:
         browseBlue["fg"] = "#000000"
         browseBlue["justify"] = "center"
         browseBlue["text"] = "Browse"
-        browseBlue.place(x=510,y=90,width=80,height=30)
+        browseBlue.place(x=410,y=90,width=80,height=30)
         browseBlue["command"] = lambda: self.browseFile(self.textBlue)
 
         self.blueDef = tk.StringVar(value="black")
@@ -132,15 +149,23 @@ class App:
         self.blueBlack["fg"] = "#333333"
         self.blueBlack["justify"] = "left"
         self.blueBlack["text"] = "Black"
-        self.blueBlack.place(x=600,y=90,width=60,height=30)
+        self.blueBlack.place(x=500,y=90,width=60,height=30)
         self.blueBlack["value"] = "black"
         self.blueWhite=tk.Radiobutton(root, variable=self.blueDef)
         self.blueWhite["font"] = ft
         self.blueWhite["fg"] = "#333333"
         self.blueWhite["justify"] = "left"
         self.blueWhite["text"] = "White"
-        self.blueWhite.place(x=660,y=90,width=60,height=30)
+        self.blueWhite.place(x=560,y=90,width=60,height=30)
         self.blueWhite["value"] = "white"
+
+        self.blueInvert = tk.BooleanVar(value=False)
+        self.blueInvertCheck=tk.Checkbutton(root, variable=self.blueInvert)
+        self.blueInvertCheck["font"] = ft
+        self.blueInvertCheck["fg"] = "#333333"
+        self.blueInvertCheck["justify"] = "left"
+        self.blueInvertCheck["text"] = "Invert"
+        self.blueInvertCheck.place(x=635,y=90,width=60,height=30)
 
         # alpha
         labelAlpha = tk.Label(root)
@@ -156,7 +181,7 @@ class App:
         self.textAlpha["font"] = ft
         self.textAlpha["fg"] = "#333333"
         self.textAlpha["justify"] = "left"
-        self.textAlpha.place(x=80,y=130,width=560,height=30)
+        self.textAlpha.place(x=80,y=130,width=460,height=30)
 
         browseAlpha=tk.Button(root)
         browseAlpha["bg"] = "#f0f0f0"
@@ -164,8 +189,16 @@ class App:
         browseAlpha["fg"] = "#000000"
         browseAlpha["justify"] = "center"
         browseAlpha["text"] = "Browse"
-        browseAlpha.place(x=650,y=130,width=80,height=30)
+        browseAlpha.place(x=550,y=130,width=80,height=30)
         browseAlpha["command"] = lambda: self.browseFile(self.textAlpha)
+
+        self.alphaInvert = tk.BooleanVar(value=False)
+        self.alphaInvertCheck=tk.Checkbutton(root, variable=self.alphaInvert)
+        self.alphaInvertCheck["font"] = ft
+        self.alphaInvertCheck["fg"] = "#333333"
+        self.alphaInvertCheck["justify"] = "left"
+        self.alphaInvertCheck["text"] = "Invert"
+        self.alphaInvertCheck.place(x=635,y=130,width=60,height=30)
 
         packButton=tk.Button(root)
         packButton["bg"] = "#f0f0f0"
@@ -173,7 +206,7 @@ class App:
         packButton["fg"] = "#000000"
         packButton["justify"] = "center"
         packButton["text"] = "Pack"
-        packButton.place(x=10,y=170,width=720,height=25)
+        packButton.place(x=10,y=170,width=690,height=25)
         packButton["command"] = self.packButton_command
     
     def browseFile(self, textField: tk.Entry):
@@ -227,6 +260,15 @@ class App:
             if a.mode == "I;16":
                 a.mode = "I"
                 a = a.point(lambda i:i*(1./256))
+
+        if self.redInvert.get():
+            r = invert(r.convert("RGB"))
+        if self.greenInvert.get():
+            g = invert(g.convert("RGB"))
+        if self.blueInvert.get():
+            b = invert(b.convert("RGB"))
+        if self.alphaInvert.get() and alpha != "":
+            a = invert(a.convert("RGB"))
 
         size = max(r.size, g.size, b.size) if alpha == "" else max(r.size, g.size, b.size, a.size)
 
